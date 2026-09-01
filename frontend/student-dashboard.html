@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard · Smart Hostel Management</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-pending">
+
+<div class="sidebar-scrim"></div>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark">SH</div>
+      <div>
+        <div class="name">Smart Hostel</div>
+        <div class="role">Student Portal</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-link active" data-target="overview">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Overview
+      </button>
+      <button class="nav-link" data-target="requests">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.5 0 2.9.37 4.14 1.02"/></svg>
+        Outpass &amp; Leave
+      </button>
+      <button class="nav-link" data-target="complaints">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Complaints
+      </button>
+
+      <button class="nav-link" data-target="room">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Room &amp; Hostel
+      </button>
+    </nav>
+    <div class="sidebar-foot">
+      <button class="nav-link" data-logout>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Log out
+      </button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="menu-toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <div class="topbar-title">Student Dashboard</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="notif-bell">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="dot hidden" id="notif-dot"></span>
+        </button>
+        <div class="user-chip">
+          <div class="avatar" data-user-avatar></div>
+          <div>
+            <div class="u-name" data-user-name></div>
+            <div class="u-role" data-user-role></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="notif-panel" class="notif-panel">
+      <div class="notif-head"><h4>Notifications</h4><button class="btn btn-ghost btn-sm" id="notif-mark-all" onclick="markAllNotifsRead()">Mark all read</button></div>
+      <div id="notif-list"></div>
+    </div>
+
+    <main class="content">
+
+      <!-- OVERVIEW -->
+      <section class="view-section" id="view-overview">
+        <div class="page-head">
+          <div>
+            <h2 id="welcome-heading">Good day</h2>
+            <p>Here's your hostel overview.</p>
+          </div>
+        </div>
+
+        <div class="stat-grid" style="margin-bottom:22px;">
+          <div class="stat-card">
+            <div class="stat-label">Room</div>
+            <div class="stat-value" id="stat-room" style="font-size:22px;">—</div>
+            <div class="stat-sub" id="stat-room-sub">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Current Outpass</div>
+            <div class="stat-value" id="stat-outpass" style="font-size:22px;">—</div>
+            <div class="stat-sub">Most recent status</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Leave Status</div>
+            <div class="stat-value" id="stat-leave" style="font-size:22px;">—</div>
+            <div class="stat-sub">Most recent status</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Open Complaints</div>
+            <div class="stat-value" id="stat-complaints">0</div>
+            <div class="stat-sub">Awaiting resolution</div>
+          </div>
+        </div>
+
+        <div class="card card-pad" style="margin-bottom:22px;">
+          <h3 style="margin-bottom:14px;">Quick actions</h3>
+          <div class="qa-grid">
+            <button class="qa-tile" onclick="openRequestModal('Outpass')">
+              <div class="qa-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="qa-title">Apply Outpass</div>
+              <div class="qa-sub">Short trip out of hostel</div>
+            </button>
+            <button class="qa-tile" onclick="openRequestModal('Leave')">
+              <div class="qa-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+              <div class="qa-title">Apply Leave</div>
+              <div class="qa-sub">Multi-day home leave</div>
+            </button>
+            <button class="qa-tile" onclick="openComplaintModal()">
+              <div class="qa-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <div class="qa-title">Submit Complaint</div>
+              <div class="qa-sub">Hostel, room or mess</div>
+            </button>
+
+          </div>
+        </div>
+
+        <div class="card section-card">
+          <div class="section-head"><h3>Recent activity</h3></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Type</th><th>Detail</th><th>Dates</th><th>Status</th></tr></thead>
+              <tbody id="recent-requests-body"><tr class="empty-row"><td colspan="4">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- REQUESTS -->
+      <section class="view-section" id="view-requests" style="display:none;">
+        <div class="page-head">
+          <div><h2>Outpass &amp; Leave</h2><p>Track every request and see exactly who approved it.</p></div>
+          <div style="display:flex;gap:10px;">
+            <button class="btn btn-outline" onclick="openRequestModal('Leave')">Apply Leave</button>
+            <button class="btn btn-brass" onclick="openRequestModal('Outpass')">Apply Outpass</button>
+          </div>
+        </div>
+        <div class="card section-card">
+          <div class="section-head">
+            <h3>All requests</h3>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm btn-outline" data-req-filter="All" onclick="setRequestFilter('All')">All</button>
+              <button class="btn btn-sm btn-outline" data-req-filter="Outpass" onclick="setRequestFilter('Outpass')">Outpass</button>
+              <button class="btn btn-sm btn-outline" data-req-filter="Leave" onclick="setRequestFilter('Leave')">Leave</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Type</th><th>Destination / Reason</th><th>From</th><th>To</th><th>Status</th><th></th></tr></thead>
+              <tbody id="requests-body"><tr class="empty-row"><td colspan="6">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMPLAINTS -->
+      <section class="view-section" id="view-complaints" style="display:none;">
+        <div class="page-head">
+          <div><h2>Complaints</h2><p>Submit and track hostel, room or mess complaints.</p></div>
+          <button class="btn btn-brass" onclick="openComplaintModal()">Submit Complaint</button>
+        </div>
+        <div class="card section-card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Type</th><th>Title</th><th>Filed</th><th>Status</th><th>Resolution</th></tr></thead>
+              <tbody id="complaints-body"><tr class="empty-row"><td colspan="5">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!-- ROOM -->
+      <section class="view-section" id="view-room" style="display:none;">
+        <div class="page-head"><div><h2>Room &amp; Hostel</h2><p>Your current allocation.</p></div></div>
+        <div class="card card-pad" id="room-info-card">Loading…</div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Request Modal -->
+<div class="modal-overlay" id="request-modal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="request-modal-title">Apply Outpass</h3><button class="modal-close" onclick="closeModal('request-modal')">&times;</button></div>
+    <form id="create-request-form">
+      <div class="modal-body">
+        <input type="hidden" id="req-type" value="Outpass">
+        <div class="field" id="req-dest-field">
+          <label for="req-dest">Destination</label>
+          <input type="text" id="req-dest" placeholder="e.g. City Center Mall">
+        </div>
+        <div class="field">
+          <label for="req-reason">Reason</label>
+          <textarea id="req-reason" placeholder="Briefly explain the purpose" required></textarea>
+        </div>
+        <div class="form-row" id="req-outpass-times">
+          <div class="field">
+            <label for="req-out-time">Out time</label>
+            <input type="time" id="req-out-time">
+          </div>
+          <div class="field">
+            <label for="req-return-time">Expected return time</label>
+            <input type="time" id="req-return-time">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="req-from">From date</label>
+            <input type="date" id="req-from" required>
+          </div>
+          <div class="field">
+            <label for="req-to">To date</label>
+            <input type="date" id="req-to" required>
+          </div>
+        </div>
+        <div class="error-text hidden" id="request-form-error"></div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="closeModal('request-modal')">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="request-submit-btn">
+          <span class="spinner hidden" id="request-submit-spinner"></span>
+          <span id="request-submit-label">Submit request</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Complaint Modal -->
+<div class="modal-overlay" id="complaint-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Submit Complaint</h3><button class="modal-close" onclick="closeModal('complaint-modal')">&times;</button></div>
+    <form id="create-complaint-form">
+      <div class="modal-body">
+        <div class="field">
+          <label for="comp-type">Category</label>
+          <select id="comp-type" required>
+            <option value="Hostel">Hostel</option>
+            <option value="Room">Room</option>
+            <option value="Mess">Mess</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="comp-title">Title</label>
+          <input type="text" id="comp-title" placeholder="Short summary" required>
+        </div>
+        <div class="field">
+          <label for="comp-desc">Description</label>
+          <textarea id="comp-desc" placeholder="Describe the issue in detail" required></textarea>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="closeModal('complaint-modal')">Cancel</button>
+        <button type="submit" class="btn btn-primary">
+          <span class="spinner hidden" id="complaint-submit-spinner"></span>
+          <span id="complaint-submit-label">File complaint</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- Request Detail Modal -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head"><h3 id="detail-modal-title">Request detail</h3><button class="modal-close" onclick="closeModal('detail-modal')">&times;</button></div>
+    <div class="modal-body" id="detail-modal-body"></div>
+  </div>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/student.js"></script>
+</body>
+</html>

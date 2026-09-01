@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Hostel Management</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="login-shell">
+
+  <div class="login-hero">
+    <div>
+      <div class="mark-lg">SH</div>
+      <h1>The hostel's paperwork, kept the way it always should have been.</h1>
+      <p class="lede">One record for every outpass, leave, complaint and room — from the moment a student applies to the moment a warden signs off.</p>
+    </div>
+
+    <div class="hero-ledger">
+      <div class="eyebrow" style="color:rgba(255,255,255,0.4);margin-bottom:16px;">Outpass approval chain</div>
+      <div class="ledger">
+        <div class="ledger-step done">
+          <div class="ledger-role">Student</div>
+          <div class="ledger-name">Request submitted</div>
+          <div class="ledger-meta">Destination, dates &amp; reason on file</div>
+        </div>
+        <div class="ledger-step done">
+          <div class="ledger-role">Advisor / HOD</div>
+          <div class="ledger-name">Department approval</div>
+          <div class="ledger-meta">Reviewed and signed off</div>
+        </div>
+        <div class="ledger-step current">
+          <div class="ledger-role">Warden</div>
+          <div class="ledger-name">Awaiting final approval</div>
+          <div class="ledger-meta">Every stage is a real, timestamped record</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-foot">SMART HOSTEL MANAGEMENT &middot; ESTD. RECORD SYSTEM</div>
+  </div>
+
+  <div class="login-panel">
+    <div class="login-card">
+      <div class="eyebrow">Sign in</div>
+      <h2>Welcome back</h2>
+      <p class="lede">Choose your role and sign in to continue.</p>
+
+      <div class="role-tabs">
+        <button type="button" class="role-tab active" data-role="Student">Student</button>
+        <button type="button" class="role-tab" data-role="Department">Department</button>
+        <button type="button" class="role-tab" data-role="Warden">Warden</button>
+        <button type="button" class="role-tab" data-role="SuperAdmin">Super Admin</button>
+      </div>
+
+      <div class="alert alert-error hidden" id="login-error"></div>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@hostel.com" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button type="button" class="toggle-visibility" aria-label="Show password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn" style="padding:13px;">
+          <span class="spinner hidden" id="login-spinner"></span>
+          <span id="login-btn-label">Sign in</span>
+        </button>
+      </form>
+
+      <form id="change-password-form" class="hidden" novalidate>
+        <div class="alert alert-warning" style="margin-bottom: 20px;">
+          For security, please change your default password before continuing.
+        </div>
+        <div class="field">
+          <label for="new-password">New Password</label>
+          <input type="password" id="new-password" name="new-password" placeholder="At least 6 characters" required>
+        </div>
+        <div class="field">
+          <label for="confirm-password">Confirm New Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" placeholder="Retype new password" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="change-pwd-btn" style="padding:13px;">
+          <span class="spinner hidden" id="change-pwd-spinner"></span>
+          <span id="change-pwd-btn-label">Change Password</span>
+        </button>
+      </form>
+
+      <div class="demo-creds" id="demo-creds-box"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

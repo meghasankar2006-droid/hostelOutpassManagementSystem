@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Department Dashboard · Smart Hostel Management</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-pending">
+
+<div class="sidebar-scrim"></div>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="mark">SH</div>
+      <div>
+        <div class="name">Smart Hostel</div>
+        <div class="role" id="dept-role-label">Department Portal</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-link active" data-target="overview">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Overview
+      </button>
+      <button class="nav-link" data-target="requests">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.5 0 2.9.37 4.14 1.02"/></svg>
+        Requests
+        <span class="nav-badge hidden" id="pending-badge">0</span>
+      </button>
+      <button class="nav-link" data-target="students">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Students
+      </button>
+      <button class="nav-link" id="nav-advisors" data-target="advisors">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></svg>
+        Advisors
+      </button>
+      <button class="nav-link" data-target="attendance">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Attendance
+      </button>
+    </nav>
+    <div class="sidebar-foot">
+      <button class="nav-link" data-logout>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Log out
+      </button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <button class="menu-toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+        <div class="topbar-title">Department Dashboard</div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="notif-bell">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="dot hidden" id="notif-dot"></span>
+        </button>
+        <div class="user-chip">
+          <div class="avatar" data-user-avatar></div>
+          <div>
+            <div class="u-name" data-user-name></div>
+            <div class="u-role" id="staff-role-chip">—</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="notif-panel" class="notif-panel">
+      <div class="notif-head"><h4>Notifications</h4><button class="btn btn-ghost btn-sm" id="notif-mark-all" onclick="markAllNotifsRead()">Mark all read</button></div>
+      <div id="notif-list"></div>
+    </div>
+
+    <main class="content">
+
+      <!-- OVERVIEW -->
+      <section class="view-section" id="view-overview">
+        <div class="page-head">
+          <div><h2 id="dept-heading">Department Overview</h2><p id="dept-sub">—</p></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Students</div><div class="stat-value" id="a-total">—</div></div>
+          <div class="stat-card"><div class="stat-label">Pending Leave</div><div class="stat-value" id="a-pending-leave">—</div></div>
+          <div class="stat-card"><div class="stat-label">Pending Outpass</div><div class="stat-value" id="a-pending-outpass">—</div></div>
+          <div class="stat-card"><div class="stat-label">Approved Leave</div><div class="stat-value" id="a-approved-leave">—</div></div>
+          <div class="stat-card"><div class="stat-label">Approved Outpass</div><div class="stat-value" id="a-approved-outpass">—</div></div>
+          <div class="stat-card"><div class="stat-label">Rejected</div><div class="stat-value" id="a-rejected">—</div></div>
+        </div>
+
+        <div class="card section-card" style="margin-top:22px;">
+          <div class="section-head"><h3>Awaiting your action</h3></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Student</th><th>Type</th><th>Detail</th><th>Dates</th><th></th></tr></thead>
+              <tbody id="pending-body"><tr class="empty-row"><td colspan="5">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- REQUESTS -->
+      <section class="view-section" id="view-requests" style="display:none;">
+        <div class="page-head"><div><h2>Requests</h2><p>Review outpass and leave requests from your students.</p></div></div>
+        <div class="card section-card">
+          <div class="section-head">
+            <h3>All requests</h3>
+            <div style="display:flex;gap:6px;">
+              <button class="btn btn-sm btn-primary" data-r-filter="pending" onclick="setDeptFilter('pending')">Needs my action</button>
+              <button class="btn btn-sm btn-outline" data-r-filter="all" onclick="setDeptFilter('all')">All history</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Student</th><th>Type</th><th>Detail</th><th>Dates</th><th>Status</th><th></th></tr></thead>
+              <tbody id="dept-requests-body"><tr class="empty-row"><td colspan="6">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- STUDENTS -->
+      <section class="view-section" id="view-students" style="display:none;">
+        <div class="page-head"><div><h2>Students</h2><p>Everyone enrolled in this department.</p></div></div>
+        <div class="card section-card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Year</th><th>Hostel</th><th>Room</th></tr></thead>
+              <tbody id="students-body"><tr class="empty-row"><td colspan="5">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADVISORS (HOD only) -->
+      <section class="view-section" id="view-advisors" style="display:none;">
+        <div class="page-head"><div><h2>Advisors</h2><p>Advisors attached to your department.</p></div></div>
+        <div class="card section-card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th></tr></thead>
+              <tbody id="advisors-body"><tr class="empty-row"><td colspan="2">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ATTENDANCE -->
+      <section class="view-section" id="view-attendance" style="display:none;">
+        <div class="page-head">
+          <div><h2>Attendance</h2><p>Mark today's attendance for your students.</p></div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <input type="date" id="att-date" style="width:auto;">
+            <button class="btn btn-brass" onclick="saveAttendance()">Save Attendance</button>
+          </div>
+        </div>
+        <div class="card section-card">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Student</th><th>Status</th></tr></thead>
+              <tbody id="attendance-body"><tr class="empty-row"><td colspan="2">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- Approve/Reject Modal -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head"><h3 id="review-modal-title">Review Request</h3><button class="modal-close" onclick="closeModal('review-modal')">&times;</button></div>
+    <div class="modal-body" id="review-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" onclick="closeModal('review-modal')">Close</button>
+      <button class="btn btn-danger" id="review-reject-btn">Reject</button>
+      <button class="btn btn-success" id="review-approve-btn">Approve</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/department.js"></script>
+</body>
+</html>
