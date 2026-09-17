@@ -3,7 +3,6 @@ const Department = require('./backend/models/Department');
 
 async function run() {
   await mongoose.connect('mongodb://127.0.0.1:27017/smart-hostel');
-  
   const depts = [
     { name: 'Electrical & Electronics Engineering (EEE)' },
     { name: 'Electronics & Communication (ECE)' },
